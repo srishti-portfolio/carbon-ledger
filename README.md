@@ -10,6 +10,8 @@ profile are built in.
 The server owns all emission factors and CO₂e computation; the client renders a
 catalog served from `/api/catalog`, so the science lives in one place.
 
+**Live Demo:** https://carbon-ledger-puce.vercel.app
+
 ---
 
 ## Features

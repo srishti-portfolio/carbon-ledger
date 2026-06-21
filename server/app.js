@@ -23,7 +23,7 @@ export function createApp() {
 
   // ---- meta ----
   app.get("/api/health", (_req, res) => res.json({ ok: true, time: new Date().toISOString() }));
-  app.get("/api/catalog", (_req, res) => res.json(catalog()));
+  app.get("/api/catalog", (_req, res) => { res.set("Cache-Control", "public, max-age=3600"); res.json(catalog()); });
 
   // ---- auth ----
   app.post("/api/auth/register", h(async (req, res) => {
@@ -121,14 +121,16 @@ export function createApp() {
   // ---- stats ----
   app.get("/api/stats", requireAuth, h(async (req, res) => {
     const year = parseInt(req.query.year, 10) || new Date().getFullYear();
+    // Range predicate (not EXTRACT) so the (user_id, day) index can be used.
+    const start = `${year}-01-01`, end = `${year + 1}-01-01`;
     const daysQ = await pool.query(
       `SELECT to_char(day,'YYYY-MM-DD') AS day, ROUND(SUM(co2e)::numeric,2) AS total
-         FROM entries WHERE user_id=$1 AND EXTRACT(YEAR FROM day)=$2 GROUP BY day ORDER BY day`, [req.userId, year]);
+         FROM entries WHERE user_id=$1 AND day >= $2 AND day < $3 GROUP BY day ORDER BY day`, [req.userId, start, end]);
     const days = daysQ.rows.map((r) => ({ day: r.day, total: Number(r.total) }));
 
     const catQ = await pool.query(
       `SELECT category, ROUND(SUM(co2e)::numeric,2) AS total
-         FROM entries WHERE user_id=$1 AND EXTRACT(YEAR FROM day)=$2 GROUP BY category`, [req.userId, year]);
+         FROM entries WHERE user_id=$1 AND day >= $2 AND day < $3 GROUP BY category`, [req.userId, start, end]);
     const byCategory = {};
     for (const r of catQ.rows) byCategory[r.category] = Number(r.total);
 

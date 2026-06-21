@@ -36,37 +36,29 @@ catalog served from `/api/catalog`, so the science lives in one place.
 
 ```
 carbon-ledger/
-├── README.md
-├── package.json                  # root: `npm run dev` runs client + server together
-├── .gitignore
-│
-├── server/                       # Express + PostgreSQL API
-│   ├── package.json
-│   ├── .env.example              # DATABASE_URL, JWT_SECRET, PORT, CLIENT_ORIGIN
-│   ├── factors.js                # countries, categories, actions, computeCo2e()
-│   ├── db.js                     # Postgres pool + schema (users / entries / pledges)
-│   ├── auth.js                   # bcrypt + JWT + requireAuth middleware
-│   └── index.js                  # REST API: auth, profile, entries, pledges, stats
-│
-└── client/                       # Vite + React app
-    ├── package.json
-    ├── vite.config.js            # dev proxy /api -> :4000
-    ├── index.html                # no-flash theme bootstrap
-    ├── .env.example              # VITE_API_URL
+├── package.json              # root: `npm run dev` runs client + server
+├── server/
+│   ├── factors.js            # countries, categories (incl. appliances), actions, computeCo2e
+│   ├── db.js                 # Postgres pool + schema (users / entries / pledges)
+│   ├── auth.js               # bcrypt + JWT + requireAuth middleware
+│   ├── app.js                # Express app + routes (auth, profile, entries, pledges, stats)
+│   ├── index.js              # entry point: init db, start server
+│   ├── factors.test.js       # unit tests (emission logic)
+│   ├── auth.test.js          # unit tests (hashing + auth guard)
+│   ├── api.test.js           # API integration tests (Supertest, db mocked)
+│   └── .env.example
+└── client/
+    ├── vite.config.js        # dev proxy /api -> :4000
+    ├── vitest.config.js      # test runner config (jsdom)
+    ├── index.html            # no-flash theme bootstrap
     └── src/
-        ├── main.jsx              # React entry point
-        ├── App.jsx               # shell: data loading, theme, routing, handlers
-        ├── api.js                # fetch wrapper with bearer-token auth
-        ├── index.css             # design system (light + dark themes)
-        ├── lib/
-        │   ├── format.js         # number/date/aggregation helpers, regionInfo, factorFor
-        │   └── icons.jsx         # icon-name -> lucide component map
-        └── components/
-            ├── Auth.jsx          # sign in / create account
-            ├── Dashboard.jsx     # budget meter, time views, min/max, tips, benchmark
-            ├── Log.jsx           # log an activity + recent entries
-            ├── Actions.jsx       # pledgeable reduction actions
-            └── Settings.jsx      # edit profile (name + country)
+        ├── App.jsx           # shell: data loading, theme, routing
+        ├── api.js            # token fetch wrapper
+        ├── index.css         # light + dark design system
+        ├── test/setup.js     # jest-dom matchers
+        ├── lib/format.js, lib/format.test.js, lib/icons.jsx
+        └── components/Auth.jsx, Dashboard.jsx, Log.jsx, Actions.jsx, Settings.jsx
+            (+ Auth.test.jsx, Actions.test.jsx)
 ```
 
 ## API reference
@@ -110,6 +102,25 @@ npm run dev
 - API → http://localhost:4000
 
 Tables are created automatically the first time the server starts.
+
+---
+
+Tests
+
+Both apps use Vitest. The server adds Supertest
+for API integration tests; the client uses React Testing Library + jsdom.
+
+# server: emission-factor logic, auth helpers, and API routes (db is mocked)
+cd server && npm test
+
+# client: formatting/domain helpers and component render tests
+cd client && npm test
+
+
+Server coverage includes computeCo2e/regionInfo correctness, password hashing
+and the JWT auth guard, and the auth/entries endpoints (validation, 401s, and the
+register→login→log happy path). Client coverage includes the format/domain helpers
+and the Auth and Actions components. No live database is required to run the tests.
 
 ---
 

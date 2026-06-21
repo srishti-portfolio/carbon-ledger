@@ -25,23 +25,23 @@ export default function Log({ catalog, user, recentEntries, onAdd, onDelete }) {
         <div className="cf-eyebrow" style={{ marginBottom: 12 }}>Log an activity</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
           {catKeys.map((k) => (
-            <button key={k} className={"cf-chip" + (cat === k ? " on" : "")} onClick={() => { setCat(k); setItem(Object.keys(categories[k].items)[0]); }}>
+            <button key={k} className={"cf-chip" + (cat === k ? " on" : "")} aria-pressed={cat === k} onClick={() => { setCat(k); setItem(Object.keys(categories[k].items)[0]); }}>
               <Ic name={categories[k].icon} size={15} /> {categories[k].label}
             </button>
           ))}
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
-          {Object.entries(items).map(([k, it]) => <button key={k} className={"cf-chip" + (item === k ? " on" : "")} onClick={() => setItem(k)}>{it.label}</button>)}
+          {Object.entries(items).map(([k, it]) => <button key={k} className={"cf-chip" + (item === k ? " on" : "")} aria-pressed={item === k} onClick={() => setItem(k)}>{it.label}</button>)}
         </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-end" }}>
           <div style={{ flex: "1 1 140px" }}>
-            <label className="cf-eyebrow">Amount ({cur.unit})</label>
-            <input className="cf-input" style={{ marginTop: 6 }} type="number" min="0" inputMode="decimal" value={amount}
+            <label className="cf-eyebrow" htmlFor="log-amount">Amount ({cur.unit})</label>
+            <input id="log-amount" className="cf-input" style={{ marginTop: 6 }} type="number" min="0" inputMode="decimal" value={amount}
               onChange={(e) => setAmount(e.target.value)} placeholder="e.g. 12" onKeyDown={(e) => e.key === "Enter" && submit()} />
           </div>
           <div style={{ flex: "1 1 140px" }}>
-            <label className="cf-eyebrow">Date</label>
-            <input className="cf-input" style={{ marginTop: 6 }} type="date" max={todayISO()} value={day} onChange={(e) => setDay(e.target.value)} />
+            <label className="cf-eyebrow" htmlFor="log-day">Date</label>
+            <input id="log-day" className="cf-input" style={{ marginTop: 6 }} type="date" max={todayISO()} value={day} onChange={(e) => setDay(e.target.value)} />
           </div>
           <button className="cf-btn primary" onClick={submit} disabled={!amount || parseFloat(amount) <= 0}><Plus size={16} /> Add</button>
         </div>

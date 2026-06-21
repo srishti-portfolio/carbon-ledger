@@ -110,17 +110,19 @@ export default function App() {
 
         <nav className="cf-nav">
           {tabs.map((t) => { const I = t.Icon; return (
-            <button key={t.k} className={"cf-tab" + (view === t.k ? " on" : "")} onClick={() => setView(t.k)}><I size={16} /> <span>{t.label}</span></button>
+            <button key={t.k} className={"cf-tab" + (view === t.k ? " on" : "")} aria-current={view === t.k ? "page" : undefined} onClick={() => setView(t.k)}><I size={16} /> <span>{t.label}</span></button>
           ); })}
         </nav>
 
         {error && <div className="cf-card" style={{ borderColor: "var(--danger-bd)", background: "var(--danger-bg)", marginBottom: 14 }}><p style={{ fontSize: 13, color: "var(--over)" }}>{error}</p></div>}
 
-        {view === "dashboard" && <Dashboard catalog={catalog} user={user} recentEntries={entries} pledges={pledges} stats={stats}
-          selectedYear={year} period={period} onYear={onYear} onPeriod={setPeriod} isDark={theme === "dark"} goTo={setView} />}
-        {view === "log" && <Log catalog={catalog} user={user} recentEntries={entries} onAdd={addEntry} onDelete={deleteEntry} />}
-        {view === "actions" && <Actions catalog={catalog} pledges={pledges} onToggle={togglePledge} />}
-        {view === "settings" && <Settings catalog={catalog} user={user} onSave={saveProfile} busy={busy} />}
+        <main>
+          {view === "dashboard" && <Dashboard catalog={catalog} user={user} recentEntries={entries} pledges={pledges} stats={stats}
+            selectedYear={year} period={period} onYear={onYear} onPeriod={setPeriod} isDark={theme === "dark"} goTo={setView} />}
+          {view === "log" && <Log catalog={catalog} user={user} recentEntries={entries} onAdd={addEntry} onDelete={deleteEntry} />}
+          {view === "actions" && <Actions catalog={catalog} pledges={pledges} onToggle={togglePledge} />}
+          {view === "settings" && <Settings catalog={catalog} user={user} onSave={saveProfile} busy={busy} />}
+        </main>
 
         <p className="cf-mono" style={{ textAlign: "center", fontSize: 11, color: "var(--sub)", marginTop: 28, opacity: .8 }}>
           Emission factors are approximate (DEFRA/BEIS · IPCC · Our World in Data).

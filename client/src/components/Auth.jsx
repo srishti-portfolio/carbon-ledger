@@ -33,24 +33,24 @@ export default function Auth({ catalog, onLogin, onRegister, busy, error, theme,
           </div>
         </div>
 
-        <label className="cf-eyebrow">Email</label>
-        <input className="cf-input" style={{ margin: "6px 0 14px" }} type="email" autoComplete="email"
+        <label className="cf-eyebrow" htmlFor="auth-email">Email</label>
+        <input id="auth-email" className="cf-input" style={{ margin: "6px 0 14px" }} type="email" autoComplete="email"
           value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
           onKeyDown={(e) => e.key === "Enter" && submit()} />
 
-        <label className="cf-eyebrow">Password</label>
-        <input className="cf-input" style={{ margin: "6px 0 14px" }} type="password"
+        <label className="cf-eyebrow" htmlFor="auth-password">Password</label>
+        <input id="auth-password" className="cf-input" style={{ margin: "6px 0 14px" }} type="password"
           autoComplete={isRegister ? "new-password" : "current-password"} value={password}
           onChange={(e) => setPassword(e.target.value)} placeholder={isRegister ? "At least 8 characters" : "Your password"}
           onKeyDown={(e) => e.key === "Enter" && submit()} />
 
         {isRegister && (
           <>
-            <label className="cf-eyebrow">Name <span style={{ textTransform: "none", letterSpacing: 0 }}>(optional)</span></label>
-            <input className="cf-input" style={{ margin: "6px 0 14px" }} value={name}
+            <label className="cf-eyebrow" htmlFor="auth-name">Name <span style={{ textTransform: "none", letterSpacing: 0 }}>(optional)</span></label>
+            <input id="auth-name" className="cf-input" style={{ margin: "6px 0 14px" }} value={name}
               onChange={(e) => setName(e.target.value)} placeholder="e.g. Asha" />
-            <label className="cf-eyebrow">Country / region</label>
-            <select className="cf-select" style={{ margin: "6px 0 6px" }} value={region} onChange={(e) => setRegion(e.target.value)}>
+            <label className="cf-eyebrow" htmlFor="auth-region">Country / region</label>
+            <select id="auth-region" className="cf-select" style={{ margin: "6px 0 6px" }} value={region} onChange={(e) => setRegion(e.target.value)}>
               <option value="Global average">Global average</option>
               {catalog.countries.map((c) => <option key={c} value={c}>{c}</option>)}
             </select>

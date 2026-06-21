@@ -69,7 +69,7 @@ export default function Dashboard({ catalog, user, recentEntries, pledges, stats
           <span className="cf-display" style={{ fontSize: 40, color: statusColor(dayRatio) }}>{today.toFixed(1)}</span>
           <span className="cf-mono" style={{ color: "var(--sub)", fontSize: 14 }}>kg CO₂e spent today</span>
         </div>
-        <div className="cf-meter">
+        <div className="cf-meter" role="img" aria-label={`Today ${today.toFixed(1)} kilograms of a ${paris.daily.toFixed(1)} kilogram daily budget`}>
           <div className="cf-meter-fill" style={{ width: Math.min(100, dayRatio * 100) + "%", background: statusColor(dayRatio) }} />
           {dayRatio > 1 && <div className="cf-tick" style={{ left: 100 / dayRatio + "%" }} />}
         </div>
@@ -99,11 +99,11 @@ export default function Dashboard({ catalog, user, recentEntries, pledges, stats
             <span className="cf-display" style={{ fontSize: 28 }}>{fmtKg(yearTotal)}</span>
           </div>
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            <select className="cf-select" style={{ width: "auto" }} value={selectedYear} onChange={(e) => onYear(Number(e.target.value))}>
+            <select className="cf-select" style={{ width: "auto" }} aria-label="Select year" value={selectedYear} onChange={(e) => onYear(Number(e.target.value))}>
               {years.map((y) => <option key={y} value={y}>{y}</option>)}
             </select>
             <div className="cf-seg">
-              {PERIODS.map((p) => <button key={p} className={period === p ? "on" : ""} onClick={() => onPeriod(p)}>{p[0].toUpperCase() + p.slice(1)}</button>)}
+              {PERIODS.map((p) => <button key={p} className={period === p ? "on" : ""} aria-pressed={period === p} onClick={() => onPeriod(p)}>{p[0].toUpperCase() + p.slice(1)}</button>)}
             </div>
           </div>
         </div>
@@ -114,6 +114,7 @@ export default function Dashboard({ catalog, user, recentEntries, pledges, stats
           {period === "yearly" ? "Total by year" : `${period[0].toUpperCase() + period.slice(1)} footprint · ${selectedYear}`}
         </div>
         {series.length === 0 ? <div className="cf-empty">No activity logged for {selectedYear}.</div> : (
+          <div role="img" aria-label={`${period} carbon footprint chart for ${selectedYear}`}>
           <ResponsiveContainer width="100%" height={210}>
             {period === "daily" ? (
               <AreaChart data={series} margin={{ left: -16, right: 6, top: 6, bottom: 0 }}>
@@ -138,6 +139,7 @@ export default function Dashboard({ catalog, user, recentEntries, pledges, stats
               </BarChart>
             )}
           </ResponsiveContainer>
+          </div>
         )}
       </div>
 

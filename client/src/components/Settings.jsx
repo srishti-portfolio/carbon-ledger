@@ -13,11 +13,11 @@ export default function Settings({ catalog, user, onSave, busy }) {
     <div className="cf-grid cf-cols-2">
       <div className="cf-card">
         <div className="cf-eyebrow" style={{ marginBottom: 12 }}>Edit profile</div>
-        <label className="cf-eyebrow">Name</label>
-        <input className="cf-input" style={{ margin: "6px 0 14px" }} value={name}
+        <label className="cf-eyebrow" htmlFor="set-name">Name</label>
+        <input id="set-name" className="cf-input" style={{ margin: "6px 0 14px" }} value={name}
           onChange={(e) => { setName(e.target.value); setSaved(false); }} placeholder="Your name" />
-        <label className="cf-eyebrow">Country / region</label>
-        <select className="cf-select" style={{ margin: "6px 0 16px" }} value={region}
+        <label className="cf-eyebrow" htmlFor="set-region">Country / region</label>
+        <select id="set-region" className="cf-select" style={{ margin: "6px 0 16px" }} value={region}
           onChange={(e) => { setRegion(e.target.value); setSaved(false); }}>
           <option value="Global average">Global average</option>
           {catalog.countries.map((c) => <option key={c} value={c}>{c}</option>)}

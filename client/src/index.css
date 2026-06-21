@@ -3,7 +3,7 @@
 html, body, #root { height: 100%; }
 
 :root, html[data-theme="light"] {
-  --ink:#14241C; --paper:#F4F7F3; --card:#FFF; --line:#E2E7DF; --sub:#5E6F66;
+  --ink:#14241C; --paper:#F4F7F3; --card:#FFF; --line:#E2E7DF; --sub:#51625A;
   --green:#1E8E5A; --over:#C75B3F; --amber:#E8A33D; --nav-bg:#EAEFE8; --meter-track:#EAEFE8;
   --surface-soft:#EEF2EC; --chip-hover:#BFCEC2; --pos-bg:#F1FAF4; --pos-bd:#BFE3CC;
   --danger-bg:#FBF0EC; --danger-bd:#E7C3B9; --panel-bg:#14241C; --panel-fg:#EAF3EC; --panel-sub:#9FC2AC; --mark-fg:#CFE8D8;

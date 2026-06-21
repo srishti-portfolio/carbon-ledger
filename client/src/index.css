@@ -1,0 +1,64 @@
+/* Carbon Ledger — "measuring instrument" design system, themed via html[data-theme]. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; }
+
+:root, html[data-theme="light"] {
+  --ink:#14241C; --paper:#F4F7F3; --card:#FFF; --line:#E2E7DF; --sub:#5E6F66;
+  --green:#1E8E5A; --over:#C75B3F; --amber:#E8A33D; --nav-bg:#EAEFE8; --meter-track:#EAEFE8;
+  --surface-soft:#EEF2EC; --chip-hover:#BFCEC2; --pos-bg:#F1FAF4; --pos-bd:#BFE3CC;
+  --danger-bg:#FBF0EC; --danger-bd:#E7C3B9; --panel-bg:#14241C; --panel-fg:#EAF3EC; --panel-sub:#9FC2AC; --mark-fg:#CFE8D8;
+}
+html[data-theme="dark"] {
+  --ink:#E7ECE7; --paper:#0F1714; --card:#16201C; --line:#25322C; --sub:#93A69C;
+  --green:#34B27B; --over:#E07A5F; --amber:#E8A33D; --nav-bg:#1A241F; --meter-track:#1F2B25;
+  --surface-soft:#1F2B25; --chip-hover:#3A4A41; --pos-bg:#14271C; --pos-bd:#2E5A41;
+  --danger-bg:#2A1A16; --danger-bd:#5A332A;
+}
+.cf-root { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink); background:var(--paper); min-height:100%; -webkit-font-smoothing:antialiased; }
+.cf-mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+.cf-eyebrow { font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--sub); }
+.cf-wrap { max-width:980px; margin:0 auto; padding:0 18px 80px; }
+.cf-header { display:flex; align-items:center; justify-content:space-between; padding:20px 0 16px; border-bottom:1px solid var(--line); flex-wrap:wrap; gap:12px; }
+.cf-brand { display:flex; align-items:center; gap:10px; }
+.cf-mark { width:34px; height:34px; border-radius:9px; background:var(--ink); display:grid; place-items:center; color:var(--mark-fg); }
+.cf-brand h1 { font-size:18px; font-weight:700; letter-spacing:-.01em; }
+.cf-brand p { font-size:11px; color:var(--sub); font-family:ui-monospace,monospace; letter-spacing:.06em; }
+.cf-hactions { display:flex; align-items:center; gap:8px; }
+.cf-nav { display:flex; gap:4px; background:var(--nav-bg); border:1px solid var(--line); border-radius:11px; padding:4px; position:sticky; top:10px; z-index:5; margin:16px 0 22px; }
+.cf-tab { flex:1; display:flex; align-items:center; justify-content:center; gap:7px; border:none; background:transparent; color:var(--sub); font-size:13px; font-weight:600; padding:9px 6px; border-radius:8px; cursor:pointer; font-family:inherit; }
+.cf-tab:hover { color:var(--ink); }
+.cf-tab.on { background:var(--card); color:var(--ink); box-shadow:0 1px 2px rgba(0,0,0,.1); }
+.cf-tab span { display:none; }
+@media(min-width:560px){ .cf-tab span { display:inline; } }
+.cf-card { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:20px; }
+.cf-grid { display:grid; gap:14px; }
+@media(min-width:720px){ .cf-cols-2 { grid-template-columns:1fr 1fr; } }
+.cf-display { font-weight:800; letter-spacing:-.03em; line-height:1; font-variant-numeric:tabular-nums; font-family:ui-monospace,Menlo,monospace; }
+.cf-meter { height:18px; border-radius:9px; background:var(--meter-track); overflow:hidden; position:relative; border:1px solid var(--line); }
+.cf-meter-fill { height:100%; border-radius:9px; transition:width .6s cubic-bezier(.2,.7,.2,1); }
+.cf-tick { position:absolute; top:-5px; bottom:-5px; width:2px; background:var(--ink); opacity:.35; }
+.cf-chip { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:13px; font-weight:600; padding:8px 12px; border-radius:999px; cursor:pointer; font-family:inherit; }
+.cf-chip:hover { border-color:var(--chip-hover); }
+.cf-chip.on { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.cf-input, .cf-select { width:100%; border:1px solid var(--line); border-radius:9px; padding:11px 13px; font-size:15px; font-family:inherit; background:var(--card); color:var(--ink); outline:none; }
+.cf-input:focus-visible, .cf-select:focus-visible { border-color:var(--green); box-shadow:0 0 0 3px rgba(30,142,90,.18); }
+.cf-btn { border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:14px; font-weight:600; padding:11px 16px; border-radius:9px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; font-family:inherit; }
+.cf-btn:hover { border-color:var(--chip-hover); }
+.cf-btn.primary { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.cf-btn.icon { padding:10px; }
+.cf-btn:disabled { opacity:.45; cursor:not-allowed; }
+.cf-seg { display:inline-flex; gap:3px; background:var(--nav-bg); border:1px solid var(--line); border-radius:9px; padding:3px; }
+.cf-seg button { border:none; background:transparent; color:var(--sub); font-size:13px; font-weight:600; padding:7px 11px; border-radius:7px; cursor:pointer; font-family:inherit; }
+.cf-seg button.on { background:var(--card); color:var(--ink); box-shadow:0 1px 2px rgba(0,0,0,.1); }
+.cf-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); }
+.cf-row:last-child { border-bottom:none; }
+.cf-dot { width:9px; height:9px; border-radius:3px; flex:none; }
+.cf-iconbtn { border:none; background:transparent; color:var(--sub); cursor:pointer; padding:6px; border-radius:7px; display:grid; place-items:center; }
+.cf-iconbtn:hover { background:var(--surface-soft); color:var(--over); }
+.cf-pledge { display:flex; gap:13px; align-items:flex-start; border:1px solid var(--line); border-radius:11px; padding:14px; background:var(--card); text-align:left; cursor:pointer; font:inherit; width:100%; }
+.cf-pledge.on { border-color:var(--green); background:var(--pos-bg); }
+.cf-tag { font-family:ui-monospace,monospace; font-size:11px; color:var(--sub); border:1px solid var(--line); border-radius:6px; padding:2px 7px; letter-spacing:.05em; }
+.cf-empty { text-align:center; padding:34px 18px; color:var(--sub); }
+:focus-visible { outline:2px solid var(--green); outline-offset:2px; }
+@media(prefers-reduced-motion:reduce){ * { transition:none !important; animation:none !important; } }

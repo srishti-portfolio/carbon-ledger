@@ -1,0 +1,13 @@
+{
+  "name": "carbon-ledger",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Multi-customer carbon footprint platform",
+  "scripts": {
+    "dev": "concurrently -n server,client -c green,cyan \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "build": "npm --prefix client install && npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "install:all": "npm --prefix server install && npm --prefix client install"
+  },
+  "devDependencies": { "concurrently": "^9.1.0" }
+}
